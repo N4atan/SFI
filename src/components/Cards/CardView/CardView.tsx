@@ -6,48 +6,117 @@ type Props = {
     patient: Partial<Patient>;
 }
 
-export default function CardView({patient}: Props){
-    const msg = `
-    🏥 Atualização do Atendimento \n
+// Mapeamento de cor da Prioridade de Manchester 
+const getPriorityColor = (priority: string | undefined): string => {
+    switch (priority?.toUpperCase()) {
+        case 'VERMELHO':
+            return '#E30000'; // Vermelho (Extrema urgência)
+        case 'LARANJA':
+            return '#FF8C00'; // Laranja (Muito urgente)
+        case 'AMARELO':
+            return '#FFD700'; // Amarelo (Urgente)
+        case 'VERDE':
+            return '#32CD32'; // Verde Limão (Pouco urgente)
+        case 'AZUL':
+            return '#1E90FF'; // Azul (Não urgente)
+        default:
+            return '#6c757d'; // Padrão (Cinza)
+    }
+}
 
-    👤 Paciente: ${patient.name} \n
-    🎯 Classificação de Risco: ${patient.manchester_priority} \n
-    📌 Status atual: ${patient.status} \n
-    `
+
+export default function CardView({ patient }: Props) {
+    // ✅ MENSAGEM DO WHATSAPP TRADUZIDA
+    const msg = `
+    🏥 Atualização do Atendimento \n
+
+    👤 Paciente: ${patient.name || 'Nome Indisponível'} \n
+    🎯 Classificação de Risco: ${patient.manchester_priority || 'N/A'} \n
+    📌 Status atual: ${patient.status || 'Aguardando classificação'} \n
+    `
+
+    const priorityColor = getPriorityColor(patient.manchester_priority);
+    const manchesterPriorityText = patient.manchester_priority ? `Classificação: ${patient.manchester_priority}` : 'Sem Classificação';
 
     return (
         <div
-            style={{width: '300px', height: '150px', padding: '10px', border: '1px solid rgb(0, 0, 0, 0.1)', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.02)', position: 'relative', display: 'flex', flexDirection: 'column'}}
+            style={{
+                width: '320px',
+                padding: '20px',
+                border: `2px solid ${priorityColor}40`,
+                borderRadius: '12px',
+                boxShadow: '0 10px 20px rgba(0, 0, 0, 0.15)',
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column',
+                backgroundColor: '#f8f9fa',
+                minHeight: '180px'
+            }}
         >
-            <p style={{fontWeight: 'bold'}}>
+            {/* Título (Nome do Paciente) */}
+            <p style={{ fontWeight: '900', fontSize: '1.3rem', marginBottom: '5px', color: '#007bff' }}>
                 {patient.name}
             </p>
 
-            <p style={{color: '#636363ff'}}>
-                {patient.status}
-            </p>
-
-            
-
+            {/* Classificação de Risco (Manchester Priority) */}
             <div
-                style={{position: 'absolute', top: '10px', right: '10px'}}
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    marginBottom: '15px',
+                    paddingBottom: '5px',
+                    borderBottom: '1px solid #dee2e6'
+                }}
             >
+                {/* Indicador Colorido */}
+                <div
+                    style={{
+                        width: '12px',
+                        height: '12px',
+                        borderRadius: '50%',
+                        backgroundColor: priorityColor,
+                        boxShadow: `0 0 5px ${priorityColor}99`,
+                    }}
+                ></div>
+                {/* Texto da Classificação */}
                 <span
-                    style={{fontSize: '12px'}}
+                    style={{ fontSize: '0.95rem', fontWeight: 'bold', color: priorityColor }}
                 >
-                    {patient.manchester_priority}
-
+                    {manchesterPriorityText}
                 </span>
             </div>
 
+            {/* Status atual */}
+            <p style={{ color: '#495057', fontSize: '1rem', marginBottom: 'auto', fontWeight: '600' }}>
+                Status Atual: <span style={{ color: '#212529' }}>{patient.status}</span>
+            </p>
 
+            {/* Botão de WhatsApp */}
             <a
-                style={{marginTop: 'auto', padding: '8px', backgroundColor: '#25D366', color: '#fff', borderRadius: '8px', cursor: 'pointer', textDecoration: 'none', textAlign: 'center'}}
-                href={`https://wa.me/${'5551997433224'}?text=${msg}`}
+                style={{
+                    marginTop: '20px',
+                    padding: '12px 15px',
+                    backgroundColor: '#25D366',
+                    color: '#fff',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    textDecoration: 'none',
+                    textAlign: 'center',
+                    fontWeight: 'bold',
+                    transition: 'background-color 0.2s',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '10px',
+                    fontSize: '1rem'
+                }}
+                href={`https://wa.me/${'5551997433224'}?text=${encodeURIComponent(msg)}`}
                 target="_blank"
+                rel="noopener noreferrer"
             >
                 <FontAwesomeIcon icon={faWhatsapp} />
-                Notificar
+                Compartilhar Status
             </a>
         </div>
     )
