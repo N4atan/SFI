@@ -1,164 +1,168 @@
 import { useState } from "react";
-// Assumindo que você ainda precisa desta importação para alguma validação futura:
-
 
 export default function RegisterPatient() {
     const [patientData, setPatientData] = useState({
-        name: '',
-        phone_number: '',
-        partner_name: '',
-        partner_phone_number: '',
-        description: '',
-        manchester_priority: '', // Nível de triagem de Manchester
-        priority: '' // Prioridade final
+        name: "",
+        phone_number: "",
+        partner_name: "",
+        partner_phone_number: "",
+        description: "",
+        manchester_priority: "",
+        priority: ""
     });
 
-  
-    const manchesterPriorityOptions = ['Red (Immediate)', 'Orange (Very Urgent)', 'Yellow (Urgent)', 'Green (Standard)', 'Blue (Non-urgent)'];
-    
-    const priorityOptions = ['High', 'Medium', 'Low'];
+    const manchesterOptions = [
+        { label: "Vermelho", value: "immediate" },
+        { label: "Laranja", value: "very-urgent" },
+        { label: "Amarelo", value: "urgent" },
+        { label: "Verde", value: "standard" },
+        { label: "Azul", value: "non-urgent" }
+    ];
 
-    // 2. Handler de Mudança (Unificado)
     const handleChange = (e: any) => {
         const { name, value } = e.target;
-        
-        setPatientData(prevState => ({
-            ...prevState,
-            [name]: value
+
+        setPatientData(prev => ({
+            ...prev,
+            [name]: name === "priority" ? Number(value) : value
         }));
     };
 
-    // 3. Handler de Submissão
-    const handleSubmit = (e: any) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
-        
-        
 
-        console.log('Dados do Paciente a serem submetidos:', patientData);
+        console.log("Enviando:", patientData);
 
-        // Limpar o formulário após a submissão (opcional)
-        // setPatientData({
-        //     name: '', uuid: '', phone_number: '', partner_name: '',
-        //     partner_phone_number: '', status: 'waiting', description: '',
-        //     manchester_priority: '', priority: ''
-        // });
+        try {
+            const res = await fetch("https://hackathon2025-0y0f.onrender.com/patients", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(patientData)
+            });
+
+            const data = await res.json();
+            console.log("Resposta da API:", data);
+
+            alert("Paciente cadastrado com sucesso!");
+        } catch (error) {
+            console.error("Erro ao enviar:", error);
+            alert("Erro ao registrar paciente.");
+        }
     };
 
-    // 4. Renderização do Componente
     return (
-        <form onSubmit={handleSubmit} style={{ maxWidth: '600px', margin: 'auto', padding: '20px', border: '1px solid #ccc', borderRadius: '8px' }}>
+        <form 
+            onSubmit={handleSubmit}
+            style={{ maxWidth: 600, margin: "auto", padding: 20, border: "1px solid #ccc", borderRadius: 8 }}
+        >
             <h2>📋 Registro de Paciente</h2>
-            <hr />
+            <hr/>
 
-            {/* Nome do Paciente (name) */}
-            <div style={{ marginBottom: '15px' }}>
-                <label htmlFor="name" style={{ display: 'block', fontWeight: 'bold' }}>Nome Completo:</label>
+            {/* Nome */}
+            <div style={{ marginBottom: 15 }}>
+                <label>Nome Completo:</label>
                 <input
                     type="text"
-                    id="name"
                     name="name"
                     value={patientData.name}
                     onChange={handleChange}
                     required
-                    style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
+                    style={{ width: "100%", padding: 8 }}
                 />
             </div>
 
-            {/* Telefone do Paciente (phone_number) */}
-            <div style={{ marginBottom: '15px' }}>
-                <label htmlFor="phone_number" style={{ display: 'block', fontWeight: 'bold' }}>Telefone:</label>
+            {/* Telefone */}
+            <div style={{ marginBottom: 15 }}>
+                <label>Telefone:</label>
                 <input
                     type="tel"
-                    id="phone_number"
                     name="phone_number"
                     value={patientData.phone_number}
                     onChange={handleChange}
-                    style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
+                    required
+                    style={{ width: "100%", padding: 8 }}
                 />
             </div>
-            
-            <hr />
-            <h3>Informações do Contato (Parceiro)</h3>
 
-            {/* Nome do Parceiro (partner_name) */}
-            <div style={{ marginBottom: '15px' }}>
-                <label htmlFor="partner_name" style={{ display: 'block', fontWeight: 'bold' }}>Nome do Parceiro/Contato:</label>
+            <hr />
+            <h3>Acompanhante</h3>
+
+            <div style={{ marginBottom: 15 }}>
+                <label>Nome do acompanhante:</label>
                 <input
                     type="text"
-                    id="partner_name"
                     name="partner_name"
                     value={patientData.partner_name}
                     onChange={handleChange}
-                    style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
+                    style={{ width: "100%", padding: 8 }}
                 />
             </div>
 
-            {/* Telefone do Parceiro (partner_phone_number) */}
-            <div style={{ marginBottom: '15px' }}>
-                <label htmlFor="partner_phone_number" style={{ display: 'block', fontWeight: 'bold' }}>Telefone do Parceiro/Contato:</label>
+            <div style={{ marginBottom: 15 }}>
+                <label>Telefone do acompanhante:</label>
                 <input
                     type="tel"
-                    id="partner_phone_number"
                     name="partner_phone_number"
                     value={patientData.partner_phone_number}
                     onChange={handleChange}
-                    style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
+                    style={{ width: "100%", padding: 8 }}
                 />
             </div>
 
             <hr />
-            <h3>Triagem e Prioridade</h3>
-            
-            {/* Prioridade de Manchester (manchester_priority) - Usando <select> */}
-            <div style={{ marginBottom: '15px' }}>
-                <label htmlFor="manchester_priority" style={{ display: 'block', fontWeight: 'bold' }}>Triagem (Manchester):</label>
+            <h3>Triagem</h3>
+
+            {/* Manchester */}
+            <div style={{ marginBottom: 15 }}>
+                <label>Triagem:</label>
                 <select
-                    id="manchester_priority"
                     name="manchester_priority"
                     value={patientData.manchester_priority}
                     onChange={handleChange}
                     required
-                    style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
+                    style={{ width: "100%", padding: 8 }}
                 >
-                    <option value="" disabled>Selecione a Prioridade</option>
-                    {manchesterPriorityOptions.map(option => (
-                        <option key={option} value={option}>{option}</option>
+                    <option value="">Selecione</option>
+                    {manchesterOptions.map(opt => (
+                        <option key={opt.value} value={opt.value}>{opt.label}</option>
                     ))}
                 </select>
             </div>
 
-            {/* Prioridade Final (priority) - Usando <select> */}
-            <div style={{ marginBottom: '15px' }}>
-                <label htmlFor="priority" style={{ display: 'block', fontWeight: 'bold' }}>Prioridade Final:</label>
+            {/* Priority numérica */}
+            <div style={{ marginBottom: 15 }}>
+                <label>Prioridade Interna:</label>
                 <input
                     type="number"
-                    id="priority"
                     name="priority"
                     value={patientData.priority}
                     onChange={handleChange}
-                    style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
+                    required
+                    min="0"
+                    max="9"
+                    style={{ width: "100%", padding: 8 }}
                 />
             </div>
 
-            {/* Descrição/Queixa Principal (description) */}
-            <div style={{ marginBottom: '15px' }}>
-                <label htmlFor="description" style={{ display: 'block', fontWeight: 'bold' }}>Queixa Principal/Descrição:</label>
+            {/* Descrição */}
+            <div style={{ marginBottom: 15 }}>
+                <label>Descrição:</label>
                 <textarea
-                    id="description"
                     name="description"
                     value={patientData.description}
                     onChange={handleChange}
                     rows={4}
                     required
-                    style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
-                ></textarea>
+                    style={{ width: "100%", padding: 8 }}
+                />
             </div>
-            
 
-
-            <button type="submit" style={{ padding: '10px 20px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
+            <button 
+                type="submit"
+                style={{ padding: "10px 20px", background: "#007bff", color: "white", border: 0, borderRadius: 5 }}
+            >
                 Registrar Paciente
             </button>
         </form>
-    )
+    );
 }
