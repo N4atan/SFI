@@ -1,0 +1,57 @@
+.Card-manchester {
+    width: 240px;
+
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 14px;
+
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+/* Cabeçalho sem padding */
+.card-header {
+    width: 100%;
+}
+
+/* Barra de cor */
+.color-bar {
+    width: 100%;
+    height: 8px;
+    background-color: #d3d3d3; /* você muda por lógica depois */
+}
+
+/* Corpo do card */
+.card-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.card-body h1 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.card-body h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #777;
+}
+
+.container-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.container-details label {
+    color: #8b8b8b;
+    font-size: 14px;
+}
+
+.container-details span {
+    font-size: 16px;
+    font-weight: bold;
+}
