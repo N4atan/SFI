@@ -1,62 +1,51 @@
 import { useState } from "react";
+import './RegisterPatient.css';
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterPatient() {
+    const navigate = useNavigate();
+
     const [patientData, setPatientData] = useState({
         name: "",
         phone_number: "",
         partner_name: "",
         partner_phone_number: "",
-        description: "",
-        manchester_priority: "",
-        priority: ""
     });
+    
 
-    const manchesterOptions = [
-        { label: "Vermelho", value: "immediate" },
-        { label: "Laranja", value: "very-urgent" },
-        { label: "Amarelo", value: "urgent" },
-        { label: "Verde", value: "standard" },
-        { label: "Azul", value: "non-urgent" }
-    ];
-
-    const handleChange = (e: any) => {
+    const handleChange = (e: unknown) => {
         const { name, value } = e.target;
 
         setPatientData(prev => ({
             ...prev,
-            [name]: name === "priority" ? Number(value) : value
+            [name]: value
         }));
     };
 
-    const handleSubmit = async (e: any) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log("Enviando:", patientData);
+        const tokenUser = localStorage.getItem('token-user');
+
+        if (!tokenUser) {
+            alert('Você precisa estar logado!');
+            navigate('/login-nurse');
+        }
+
 
         try {
-            const res = await fetch("https://hackathon2025-0y0f.onrender.com/patients", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(patientData)
-            });
-
-            const data = await res.json();
-            console.log("Resposta da API:", data);
-
-            alert("Paciente cadastrado com sucesso!");
-        } catch (error) {
-            console.error("Erro ao enviar:", error);
-            alert("Erro ao registrar paciente.");
+            const console = await axios.post('https://hackathon2025-0y0f.onrender.com/patient/', )
         }
+
     };
 
     return (
         <form 
             onSubmit={handleSubmit}
-            style={{ maxWidth: 600, margin: "auto", padding: 20, border: "1px solid #ccc", borderRadius: 8 }}
+            id="form-registrar-paciente"
+            
         >
-            <h2>📋 Registro de Paciente</h2>
-            <hr/>
+            <h2>Registro de Paciente</h2>
 
             {/* Nome */}
             <div style={{ marginBottom: 15 }}>
@@ -67,7 +56,7 @@ export default function RegisterPatient() {
                     value={patientData.name}
                     onChange={handleChange}
                     required
-                    style={{ width: "100%", padding: 8 }}
+                    className="input-registrar"
                 />
             </div>
 
@@ -80,12 +69,15 @@ export default function RegisterPatient() {
                     value={patientData.phone_number}
                     onChange={handleChange}
                     required
-                    style={{ width: "100%", padding: 8 }}
+                    className="input-registrar"
                 />
             </div>
 
-            <hr />
-            <h3>Acompanhante</h3>
+
+            <div className="div-blanck"></div>
+
+            
+            <h2>Acompanhante</h2>
 
             <div style={{ marginBottom: 15 }}>
                 <label>Nome do acompanhante:</label>
@@ -94,7 +86,7 @@ export default function RegisterPatient() {
                     name="partner_name"
                     value={patientData.partner_name}
                     onChange={handleChange}
-                    style={{ width: "100%", padding: 8 }}
+                    className="input-registrar"
                 />
             </div>
 
@@ -105,61 +97,17 @@ export default function RegisterPatient() {
                     name="partner_phone_number"
                     value={patientData.partner_phone_number}
                     onChange={handleChange}
-                    style={{ width: "100%", padding: 8 }}
+                    className="input-registrar"
                 />
             </div>
 
-            <hr />
-            <h3>Triagem</h3>
-
-            {/* Manchester */}
-            <div style={{ marginBottom: 15 }}>
-                <label>Triagem:</label>
-                <select
-                    name="manchester_priority"
-                    value={patientData.manchester_priority}
-                    onChange={handleChange}
-                    required
-                    style={{ width: "100%", padding: 8 }}
-                >
-                    <option value="">Selecione</option>
-                    {manchesterOptions.map(opt => (
-                        <option key={opt.value} value={opt.value}>{opt.label}</option>
-                    ))}
-                </select>
-            </div>
-
-            {/* Priority numérica */}
-            <div style={{ marginBottom: 15 }}>
-                <label>Prioridade Interna:</label>
-                <input
-                    type="number"
-                    name="priority"
-                    value={patientData.priority}
-                    onChange={handleChange}
-                    required
-                    min="0"
-                    max="9"
-                    style={{ width: "100%", padding: 8 }}
-                />
-            </div>
-
-            {/* Descrição */}
-            <div style={{ marginBottom: 15 }}>
-                <label>Descrição:</label>
-                <textarea
-                    name="description"
-                    value={patientData.description}
-                    onChange={handleChange}
-                    rows={4}
-                    required
-                    style={{ width: "100%", padding: 8 }}
-                />
-            </div>
+            
+            
+            <div className="div-blanck"></div>
+               
 
             <button 
                 type="submit"
-                style={{ padding: "10px 20px", background: "#007bff", color: "white", border: 0, borderRadius: 5 }}
             >
                 Registrar Paciente
             </button>

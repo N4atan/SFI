@@ -1,16 +1,19 @@
 import { Route, Routes } from "react-router-dom";
-import App from "../App";
-import RegisterPatient from "../components/Forms/RegisterPatient/RegisterPatient";
+
+
 import PagePainel from "../Pages/Page-Painel/PagePainel";
-import PageAdmin from "../Pages/Page-Admin/Page-Admin";
+import PageNurse from "../Pages/Page-Nurse/PageNurse";
+import LoginUser from "../components/Forms/LoginUser/LoginUser";
+import LoginPatient from "../components/Forms/LoginPatient/LoginPatient";
+
 
 export default function AppRoutes() {
     return (
         <Routes>
-            <Route path="/"                 element={<App />} />
-            <Route path="/registrar"                 element={<RegisterPatient />} />
-            <Route path="/painel"                 element={<PagePainel />} />
-            <Route path="/admin"                 element={<PageAdmin />} />
+            <Route path="/"                 element={<PagePainel />} />
+            <Route path="/nurse"            element={<PageNurse />} />
+            <Route path="/login-user"       element={<LoginUser />} />
+            <Route path="/login-patient"    element={<LoginPatient />} />
         </Routes>
     );
 }

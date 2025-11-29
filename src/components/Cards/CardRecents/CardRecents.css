@@ -1,6 +1,6 @@
 .card-recent {
-    width: 200px;
-    height: 300px;
+    min-width: 200px;
+    min-height: 200px;
 
     padding: 10px;
 
@@ -8,7 +8,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 10px;
 
     text-align: center;
 
@@ -21,43 +21,20 @@
 
 
     .badge-manchester {
-        width: 150px;
-        height: 150px;
+        width: 80px;
+        height: 80px;
 
         border-radius: 50%;
     }
 
     .span-patient-id {
-        font-size: 24px;
+        font-size: 1rem;
     }
 
     .span-patient-status {
         color: #8b8b8b;
+        font-size: 0.8rem;
     }
 }
 
 
-.immediate {
-    background-color: #FF4C4C;
-    color: #ffffff;
-}
-
-.very-urgent {
-    background-color: #FF8C42;
-    color: #ffffff;
-}
-
-.urgent {
-    background-color: #FFD447;
-    color: #000000;
-}
-
-.standard {
-    background-color: #4CAF50;
-    color: #ffffff;
-}
-
-.non-urgent {
-    background-color: #3FA9F5;
-    color: #ffffff;
-}

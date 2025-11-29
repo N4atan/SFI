@@ -1,11 +1,34 @@
-.container-manch {
+.container-recents {
     padding: 10px;
+    margin: 10px 0;
+
+   
+    
+    
+    .container-recents-cards {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        overflow-x: auto;
+        padding: 10px;   
+    }
 }
 
-.container-manch-cards {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
 
-    justify-content: space-evenly;
+
+.container-manch {
+    padding: 10px;
+    margin: 15px 0;
+    
+    
+    
+    .container-manch-cards {
+        margin-top: 0.8rem;
+        
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    
+        justify-content: space-evenly;
+    }
 }

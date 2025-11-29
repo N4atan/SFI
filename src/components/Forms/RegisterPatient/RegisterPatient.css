@@ -1,0 +1,48 @@
+
+
+#form-registrar-paciente {
+    max-width: 600px;
+    
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    margin: 15px auto;
+    padding: 20px;
+    
+    border: 1px solid #ccc;
+    border-radius: 8px;
+
+    h2 {
+        margin-bottom: 10px;
+    }
+
+    .div-blanck {
+        height: 2px;
+
+        margin: 15px 0;
+
+        background-color: #f8f8f8;
+    }
+    
+
+    input {
+        width: 100%;
+
+        margin-top: 5px;
+
+        padding: 10px;
+
+        border: 1px solid #ccc;
+        border-radius: 8px;
+    }
+
+    button {
+        padding: 10px 20px; 
+        background-color: #007bff; 
+        color: white; 
+        border: 0; 
+        border-radius: 10px;
+        cursor: pointer;
+    }
+}

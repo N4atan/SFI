@@ -2,4 +2,47 @@
 
 * {
     font-family: "Inter", sans-serif;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* Azul */
+.bg-Azul {
+  background-color: #007bff; /* Azul vibrante */
+}
+.text-Azul {
+  color: #007bff; 
+}
+
+/* Verde */
+.bg-Verde {
+  background-color: #28a745; /* Verde de sucesso */
+}
+.text-Verde {
+  color: #28a745;
+}
+
+
+.bg-Amarelo {
+  background-color: #ffc107; /* Amarelo de atenção */
+}
+.text-Amarelo {
+  color: #ffc107; 
+}
+
+
+.bg-Laranja {
+  background-color: #fd7e14; /* Laranja */
+}
+.text-Laranja {
+  color: #fd7e14;
+}
+
+/* Vermelho */
+.bg-Vermelho {
+  background-color: #dc3545; /* Vermelho de perigo */
+}
+.text-Vermelho {
+  color: #dc3545;
 }

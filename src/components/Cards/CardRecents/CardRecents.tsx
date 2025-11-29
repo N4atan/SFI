@@ -11,7 +11,7 @@ export default function CardRecents({patient}: Props) {
     return (
         <div className="card-recent">
             
-            <div className={`badge-manchester ${patient.manchester_priority}`}>
+            <div className={`badge-manchester bg-${patient.manchester_priority}`}>
 
             </div>
 
