@@ -1,0 +1,11 @@
+.container-manch {
+    padding: 10px;
+}
+
+.container-manch-cards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    justify-content: space-evenly;
+}
